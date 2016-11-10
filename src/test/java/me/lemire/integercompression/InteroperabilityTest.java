@@ -1,5 +1,7 @@
 package me.lemire.integercompression;
 
+import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,17 +13,30 @@ public class InteroperabilityTest {
 
 	@Test
 	public void checkBig() {
-		int max = 92;
+		int max = 1000;
 		int[] input = new int[max];
 		for (int i = 0; i < max; i++) {
 			input[i] = i;
 		}
+		checkBig2Inner(input);
+	}
+
+	@Test
+	public void checkBig2() {
+		int max = 123;
+		int[] input = new int[max];
+		Random segmentsRadom = new Random();
+		for (int i = 0; i < max; i++) {
+			input[i] = segmentsRadom.nextInt(100000);
+		}
+		checkBig2Inner(input);
+	}
+
+	/**
+	 * @param input
+	 */
+	private void checkBig2Inner(int[] input) {
 		int[] compressed = iic.compress(input);
-		// int[] expecteds = new int[] { 0, 1388249883, 845644603, -2093258622,
-		// 2055285881, 2048166741, -2022422392,
-		// -377346774, 1149388608, -2129778484, 1112340527, 730421121,
-		// 1454275068, 2037678642, 130 };
-		// Assert.assertArrayEquals(expecteds, compressed);
 		Assert.assertArrayEquals(input, iic.uncompress(compressed));
 	}
 
