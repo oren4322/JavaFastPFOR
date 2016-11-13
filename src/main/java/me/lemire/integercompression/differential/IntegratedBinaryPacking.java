@@ -117,13 +117,12 @@ public class IntegratedBinaryPacking implements IntegratedIntegerCODEC, Skippabl
 				tempinitoffset = in[tempLocation + (1 + i) * BLOCK_SIZE - 1];
 			}
 			out[tmpoutpos++] = tempMbits[0] << 24 | tempMbits[1] << 16 | tempMbits[2] << 8 | tempMbits[3];
-			for (int i = 0; i < howmany; ++i) {
+			for (int i = 0; i < howmany; i++) {
 				IntegratedBitPacking.integratedpack(initoffset, in, s + i * BLOCK_SIZE, out, tmpoutpos, tempMbits[i]);
 				tmpoutpos += tempMbits[i];
-				initoffset = in[s + BLOCK_SIZE - 1];
+				initoffset = in[s + (i + 1) * BLOCK_SIZE - 1];
 			}
 			inpos.add(howmany * BLOCK_SIZE);
-			// inpos.add(inlength);
 		}
 		outpos.set(tmpoutpos);
 	}
